@@ -1,0 +1,118 @@
+# Cross Validation - a method of estimating the expected prediction error. #
+############################################################################
+# When you implement your model, what will be the error rate? 
+
+# Well, there are three important notes on cross validation... 
+
+# 1. Cross validation will give you an approximation of your error rate. 
+# If the erorr rate is low, then you have a good model. 
+
+# 2.  Helps you select the best fit of your model.
+
+# 3. Helps you ensure that your model is not over fit.
+
+
+
+
+
+# STEPS:
+
+# 1. Estimate the parameters for the machine learning methods. "Train the algorithm."
+# 2. Evaluate how well the machine learning methods work. IN other words we need to find out 
+#    if this "curve" or whatever method will do a good job categorizing new data. In machine learning 
+#    Lingo, evaluating a method is called "Testing the algorithm."
+# 
+# We need the data to train the machine learning methods and test the machine learning methods.
+#
+# A terrible apporach would be to use all of the data to estimate the parameters (Train the algorithm)
+# because there would be no data left to test it. 
+# 
+#
+# Ex: 75% for training and 25% for testing... From there, we could then compare how well each one 
+# categorized the test data. 
+# 
+# But how do we know that using the first 75% of the data for train and the last 25% for testing is the best way 
+# to divide up the data? 
+# What if we used the first or second 25% of the data for testing, would that be better? 
+# We dont worry about which block to choose for testing, because cross validation uses them all
+# one at a time, and summarizes the results at the end. 
+#
+# K FOLD CROSS VALIDATION (FOUR FOLD):
+# Ex: cross validation would start by using the first 3 blocks (quarters, if 4 blocks total) to train and 
+# the last block (last 25% ) to test.
+# Then it would keep track of how well it did with the test.
+# Then use a different quarter to test and the other three for training. We would do this untill every 
+# block of data had the chance to be used for testing and we can even see what method has the best 
+# classification and select the best one. 
+
+
+# If we wanted to use a method that involved a "tuning parameter" - a parameter that isnt estimated,
+# but just sort of guessed, we could use 10-fold cross validation to find the best value for that 
+# tuning parameter 
+
+
+
+# Cross validation allows us to compare different machine learning methods and get a sense
+# of how well they will work in practice 
+
+
+
+#THERE ARE DIFFERENT TYPES OF CROSS VALIDATION
+# - Hold out method
+# - K-fold 
+# - Leave one out 
+# - Bootstrap methods
+
+
+# Hold out Method # 
+###################
+
+# - One of the most used/popular method. 
+# - Split your data into two subsample, a training sample and a test (hold out) sample.
+# - 50-70% of your data in training with 50-30% in test (An industry standard, but not hard and fast rule)
+# - Root Mean Squared Error (RMSE), check them for both your test and training samples, if they are very similar,
+#   then the model is probably not over fit. If they are very different, you need to go back to rebuild your
+#   model and check if your sample is representative and so on.
+# - Disadvantage is that it is prone to SAMPLE BIAS, becasue you do not decide which obs are in test and training 
+#   samples, it is done through random sampling. 
+# - This random sampling is not very representative necessarily, becasue if we change the splitting pattern, 
+#   we will probably get a different result. Low chance, but still possible. 
+
+
+# K-fold # 
+##########
+
+# - Split the sample into K equal size sub samples 
+# - k = N/k, wher eeach sub sample has the same number of observations 
+# - If you had 5 sub samples, you use one subsample as validation (test) 
+#   set and the other 4 as training sets 
+# - Use RMSE again to see if there is consistency across 
+# - Must do this so that every sub sample has an opportunity to hold as the test subsample.
+#   Everytime you get a new RMSE rate. 
+# - With K-validation, you will get k-errors
+# - Normally, k = 5:10, most Common practice is to use 10-fold cross validations 
+# - ADVANTAGE: it does not matter how the data is divided. This problem occurs in the Hold out method. The
+#   selection bias will not be present with K-fold. This is the case because... The validation sub sample is 
+#   changing, where training and vlaidation sub sets are cycled through and will all be apart of both groups 
+#   at one point or another 
+
+
+# Leave one out # 
+#################
+
+# K = N, we take out one observation and test it against the others, get the error, 
+# then change the observation to another single observation, test your model on that single observations.
+# you will have N erorrs for N observations. Summation of all single errors/N 
+# - Problem is that this can take a lot of time, ex: 1000 observations -> 1000 iterations 
+# - Many computers and systems can effectively handle this. 
+
+
+# Bootstrap Methods # 
+#####################
+
+# - Randomly draw datasets from the training sample, data points can be redrawn 
+# - Each sample is the same size as the training sample
+# - Refit the model with boostrap samples
+# - Examine the model 
+# - Training sample -> select data points with replacement -> N number of bootstrap sample and check for 
+#   consistentcy 
