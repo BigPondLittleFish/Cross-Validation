@@ -88,7 +88,6 @@ cv.carseats
 # the one with 9 terminal nodes, and has 50 cross-validation errors. 
 # We now plot the error rate as a function of both size and k. 
 
-par(mfrow = c(1,2)) 
 plot(cv.carseats$size, cv.carseats$dev, type = "b")
 plot(cv.carseats$dev, cv.carseats$size, type = "b")
 
