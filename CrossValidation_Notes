@@ -87,41 +87,41 @@
 # - Training sample -> select data points with replacement -> N number of bootstrap sample and check for 
 #   consistentcy 
 
-# ---------------------------------------------------------------
-# STEPS:
+# -----------------------------------------------------------------------------------------------------------
+# EXAMPLE/HYPOTHETICAL/LOGICAL STEPS:
 
-# 1. Estimate the parameters for the machine learning methods. "Train the algorithm."
-# 2. Evaluate how well the machine learning methods work. IN other words we need to find out 
-#    if this "curve" or whatever method will do a good job categorizing new data. In machine learning 
-#    Lingo, evaluating a method is called "Testing the algorithm."
-# 
-# We need the data to train the machine learning methods and test the machine learning methods.
+# 1. Estimate the parameters for the machine learning methods, "train the algorithm."
 #
-# A terrible apporach would be to use all of the data to estimate the parameters (Train the algorithm)
+# 2. Evaluate how well the machine learning methods work. In other words, we need to find out 
+#    if the "curve" or whatever method used will do a good job categorizing new data added
+#    (think in terms of new patients and predicting heart problems). In machine learning 
+#    lingo, evaluating a method is referred to as "testing the algorithm."
+# 
+# We need the data to train the machine learning methods and test those machine learning methods.
+#
+# A terrible apporach would be to use all of the data to estimate the parameters (train the algorithm)
 # because there would be no data left to test it. 
-# 
 #
-# Ex: 75% for training and 25% for testing... From there, we could then compare how well each one 
-# categorized the test data. 
+# Ex: WE could use 75% of the data for training and 25% for testing... From there, we could then 
+# compare how well each one categorized the test data. 
 # 
-# But how do we know that using the first 75% of the data for train and the last 25% for testing is the best way 
-# to divide up the data? 
-# What if we used the first or second 25% of the data for testing, would that be better? 
-# We dont worry about which block to choose for testing, because cross validation uses them all
-# one at a time, and summarizes the results at the end. 
+# But how do we know that using the first 75% of the data for training and the last 25% for testing is the best way 
+# to divide up the data? For example, 
+# What if we used the first or second 25% of the data for testing and the last 75% for training, would that be better? 
+# We dont need to worry about which block to choose for testing, because cross validation will use them all,
+# one at a time, and allow for a summary of the results at the end. 
 #
 # K FOLD CROSS VALIDATION (FOUR FOLD):
-# Ex: cross validation would start by using the first 3 blocks (quarters, if 4 blocks total) to train and 
-# the last block (last 25% ) to test.
-# Then it would keep track of how well it did with the test.
-# Then use a different quarter to test and the other three for training. We would do this untill every 
-# block of data had the chance to be used for testing and we can even see what method has the best 
-# classification and select the best one. 
+# Ex: cross validation would start by using the first 3 blocks (Or quarters, where there would be 4 blocks total) 
+# to train and the last block (the last 25% ) to test.
+# Then it would keep track of how well the test preformed.
+# Then it would use a different/the next quarter to test, and the other three quarters for training. 
+# We would do this until every block of data had the chance to be used for testing and can even see 
+# what method has the best classification so we can select the best one.
+# -----------------------------------------------------------------------------------------------------------
 
 
-
-
-# If we wanted to use a method that involved a "tuning parameter" - a parameter that isnt estimated,
-# but just sort of guessed, we could use 10-fold cross validation to find the best value for that 
-# tuning parameter 
-# ---------------------------------------------------------------
+# Tuning Parameters:
+# If we wanted to use a method that involved a "tuning parameter" (a parameter that isnt estimated,
+# but just sort of guessed) we could use 10-fold cross validation to find the best value for that 
+# tuning parameter.
