@@ -50,24 +50,40 @@ High.test <- High[-train]
 #
 ##################################################################################################
 
+# Create a model with training data 
+
 tree.carseats <- tree(High ~. - Sales, Carseats, subset = train)
+
+# Check prediciton rate of training data 
+
 tree.predict <- predict(tree.carseats, Carseats.test, type = "class")
-# Add the "Yes/Yes" and the "No/No" together and divide by the test size 
+
+# Create a table/ confusion matrix for your prediction and your test 
+
 table(tree.predict, High.test)
+
+# Add the "Yes/Yes" and the "No/No" together and divide by the test observation number (200).  
+
 ((86+57)/200)*100
+
 # This means that this approach leasds to a 71.5% correct prediction rate in the test data set. 
+#
+#
+#
+#
+#
+# Now is when we may want to consider pruning, to try and minimize our prediction error. 
+# We do this using cross validation to odetermine the optimal level of tree complexity. 
 
-#
-#
-#
-# Now we consider pruning to try and minimize our prediction error. 
-# We do this using cross validation to odetermine the optimal levle of tree complexity. 
-
+# Set a new seed 
 
 set.seed(3)
+
+#  Make a new model 
 cv.carseats <- cv.tree(tree.carseats, FUN = prune.misclass)
 names(cv.carseats)
 cv.carseats
+
 # Note that the tree with the lowest corss-validation error rate is the one with 9 terminal nodes, and has 50 cross-validation errors. 
 # We now plot the error rate as a function of both size and k. 
 
