@@ -101,10 +101,29 @@ text(prune.carseats, pretty = 0)
 # How well does this pruned tree preform on the test data set? 
 
 tree.pred <- predict(prune.carseats, Carseats.test, type = "class")
-table(tree.pred, High.test)
+table <- table(tree.pred, High.test)
+table
 ((94+60)/200)*100 
 
 # Now we have 77% classification accuracy and our tree is more easy to interpret! This is what we want 
 # If we increased the "best = " value in our prune.misclass() from 9 to 15, for example,
 # our classification accuracy would decrease and the tree would be harder to read.
+
+# Lets try to display this result in a confusion matrix 
+
+# Confusion Matrix:
+
+library(ggplot2)
+
+confusion <- as.data.frame(as.table(table))
+
+plot <- ggplot(confusion)
+plot + geom_tile(aes(x=High.test, y=tree.pred, fill=Freq)) + scale_x_discrete(name="Actual Class") + 
+  scale_y_discrete(name="Predicted Class") + 
+  scale_fill_gradient(breaks=seq(from=-.5, to=4, by=.2)) + 
+  labs(fill="Normalized\nFrequency") + theme_minimal() + ggtitle("Attempt at Confusion Matrix") +
+  theme(plot.title = element_text(hjust = 0.5, lineheight= 10, face="bold", size = 18))
+
+
+
 
