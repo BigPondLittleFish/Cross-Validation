@@ -1,0 +1,89 @@
+# This is my first tree and follows an example from "An Introduction to Statistical Learning with Applications in R"
+# by Gareth James, Daniela Witten, Trevor Hastie and Robert Tibshirani.
+
+library(tree)
+library(ISLR)
+attach(Carseats)
+
+ # First, we need to create a binary out of the continuous variable "Sales" in order to observe it.
+ 
+High <- ifelse(Sales <= 8, "No", "Yes")
+
+# Then, we merge the old set with our newly created variable
+
+Carseats <- data.frame(Carseats, High)  
+
+# We then construct our tree... 
+# "-Sales" becuase "High" is replacing it and in our model by using "." we are saying use everything else, but need
+# to exclude that variable specifically. 
+
+tree.carseats <- tree(High ~. -Sales, Carseats) 
+summary(tree.carseats)
+
+# First Exploratory/Base tree model
+
+plot(tree.carseats)
+text(tree.carseats, pretty = 0)
+tree.carseats
+
+# We need to seperate the data into two sets, so we divide it in half (K = 2)...
+
+# For consistency in replicating our test we need to set a seed... I chose 2 arbitrarily.
+
+set.seed(2)
+
+# Set half of the data aside for the training data (Orginal set has 400 observations).
+
+train <- sample(1:nrow(Carseats), 200) 
+
+# Create our test set by removing the training observations from the original data 
+
+Carseats.test <- Carseats[-train, ]
+
+# Remove the training observations from our vector of interest that we created at begining 
+
+High.test <- High[-train] 
+
+##################################################################################################
+#  FUN FACT:
+#             We build the tree on the training data and we evaluate preformance on the test data.
+#
+##################################################################################################
+
+tree.carseats <- tree(High ~. - Sales, Carseats, subset = train)
+tree.predict <- predict(tree.carseats, Carseats.test, type = "class")
+# Add the "Yes/Yes" and the "No/No" together and divide by the test size 
+table(tree.predict, High.test)
+((86+57)/200)*100
+# This means that this approach leasds to a 71.5% correct prediction rate in the test data set. 
+
+#
+#
+#
+# Now we consider pruning to try and minimize our prediction error. 
+# We do this using cross validation to odetermine the optimal levle of tree complexity. 
+
+
+set.seed(3)
+cv.carseats <- cv.tree(tree.carseats, FUN = prune.misclass)
+names(cv.carseats)
+cv.carseats
+# Note that the tree with the lowest corss-validation error rate is the one with 9 terminal nodes, and has 50 cross-validation errors. 
+# We now plot the error rate as a function of both size and k. 
+
+par(mfrow = c(1,2)) 
+plot(cv.carseats$size, cv.carseats$dev, type = "b")
+plot(cv.carseats$dev, cv.carseats$size, type = "b") # We can look at these side by side and visually observe the 9 terminal nodes as best choice
+
+prune.carseats <- prune.misclass(tree.carseats, best = 9)
+plot(prune.carseats)
+text(prune.carseats, pretty = 0)
+
+# How well does this pruned tree prefomr on the test data set? 
+
+tree.pred <- predict(prune.carseats, Carseats.test, type = "class")
+table(tree.pred, High.test)
+((94+60)/200)*100 # seed 3
+# Now we have 77% classification accuracy and our tree is more interpretable! This is what we want 
+# If we increased the "Best = " value from 9 to say 15, our classification accuracy would decrease and make the tree harder to read
+
