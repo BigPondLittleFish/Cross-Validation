@@ -58,6 +58,13 @@
 #   selection bias will not be present with K-fold. This is the case because... The validation sub sample is 
 #   changing, where training and vlaidation sub sets are cycled through and will all be apart of both groups 
 #   at one point or another 
+# - A larger K will lead to less bias toward overestimating the true expected error (as the number of training folds
+#   will be close to the total number of observations in the dataset), but will lead to a higher 
+#   variance and runnning time (see "Leave one out").
+# - A higher K gives more samples to estimate a more accurate confidence interval on your estimate. 
+# - K= 2 may be very inaccurate, but K = 100 may take forever to run and bring a higher variance with it. So K = 10 
+#   often plays a "happy medium" where you can increase your accuracy, hopefully without increasing your 
+#   variance by a dramatic amount.
 
 
 # Leave one out 
