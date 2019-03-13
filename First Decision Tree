@@ -75,31 +75,37 @@ table(tree.predict, High.test)
 # Now is when we may want to consider pruning, to try and minimize our prediction error. 
 # We do this using cross validation to odetermine the optimal level of tree complexity. 
 
-# Set a new seed 
+# Set a new seed set.seed(3)
 
 set.seed(3)
 
-#  Make a new model 
+#  Check for cross validation error rate
 cv.carseats <- cv.tree(tree.carseats, FUN = prune.misclass)
 names(cv.carseats)
 cv.carseats
 
-# Note that the tree with the lowest corss-validation error rate is the one with 9 terminal nodes, and has 50 cross-validation errors. 
+# Note that the tree with the lowest cross-validation error rate is 
+# the one with 9 terminal nodes, and has 50 cross-validation errors. 
 # We now plot the error rate as a function of both size and k. 
 
 par(mfrow = c(1,2)) 
 plot(cv.carseats$size, cv.carseats$dev, type = "b")
-plot(cv.carseats$dev, cv.carseats$size, type = "b") # We can look at these side by side and visually observe the 9 terminal nodes as best choice
+plot(cv.carseats$dev, cv.carseats$size, type = "b")
 
+# We can look at these side by side and visually observe the 9 terminal nodes as best choice
+
+# We then prune our original tree and graph it 
 prune.carseats <- prune.misclass(tree.carseats, best = 9)
 plot(prune.carseats)
 text(prune.carseats, pretty = 0)
 
-# How well does this pruned tree prefomr on the test data set? 
+# How well does this pruned tree preform on the test data set? 
 
 tree.pred <- predict(prune.carseats, Carseats.test, type = "class")
 table(tree.pred, High.test)
-((94+60)/200)*100 # seed 3
-# Now we have 77% classification accuracy and our tree is more interpretable! This is what we want 
-# If we increased the "Best = " value from 9 to say 15, our classification accuracy would decrease and make the tree harder to read
+((94+60)/200)*100 
+
+# Now we have 77% classification accuracy and our tree is more easy to interpret! This is what we want 
+# If we increased the "best = " value in our prune.misclass() from 9 to 15, for example,
+# our classification accuracy would decrease and the tree would be harder to read.
 
