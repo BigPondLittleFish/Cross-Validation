@@ -23,6 +23,8 @@
 # - K-fold 
 # - Leave one out 
 # - Bootstrap methods
+# - Logit 
+# - SVM
 # ------------------------
 
 # Hold out Method 
