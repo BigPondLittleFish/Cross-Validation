@@ -1,30 +1,38 @@
 
 # A Horse and Mule SVM example, which is an example derived from a YouTube video on SVM.
-(https://www.youtube.com/watch?v=QkAmOb1AMrY&t)
+# (https://www.youtube.com/watch?v=QkAmOb1AMrY&t)
 
 # Where the weights and heights between horses and mules are different (Horses are bigger). 
 
 library(e1071)
 
-# Read in data 
+# Create the dataframe with vectors "Height" and "Weight" 
+# Ordered so that the first 10 represent Mules and the last 10 represent Horses
+
 animal_data <- NULL
 animal_data$Height <- c(44,52,57,33,27,28,32,45,56,57,121,122,123,101,123,137,127,103,141,102)
 animal_data$Weight <- c(126,136,109,148,110,107,128,120,140,139,154,170,183,164,193,181,164,174,185,176)
 
-# Create is horse indicator variable that just lays -1 on the first 10 (mules) and 1 on last 10 (horses ) 
+# Create the horse indicator variable that simply lays "-1" on the first 10 (Mules) and "1" on last 10 (Horses) 
+
 ishorse <- c(rep(-1,10), rep(+1,10))
 
-# Create dataframe for preforming SVM 
+# Create your final dataframe for preforming the SVM by adding the "ishorse" as a factor to your dataframe 
+
 my.data <- data.frame(Height = animal_data['Height'],
                       Weight = animal_data['Weight'],
                       animal = as.factor(ishorse))
-# View the data
+                      
+# View the data to check and make sure it is the way it is meant to be
+
 my.data
 
 # Plot the data 
+
 plot(my.data[, -3], col =(3)/2, pch = 19); abline(h = 0, v = 0, lty = 3)
-?plot
+
 # Preform SVM by calling the SVM method and passing the parameters 
+
 svm.model <- svm(animal ~ ., data = my.data, type = "C-classification", kernel = "linear", scale = FALSE)
 summary(svm.model)
 
@@ -32,21 +40,25 @@ summary(svm.model)
 
 points(my.data[svm.model$index, c(1,2)], col = "red", cex = 2)
 
+# Get parameters of the hyperplane from the model "w" and "b"
 
-###  Get parameters of the hyperplane from the model 
 w <- t(svm.model$coefs) %*% svm.model$SV
-# Define "w" as the Transpose of your models coefficient AND preform matrix algebra against the models resulting support vector
-b <- -svm.model$rho
-# Define "b" as the negative of the models negative intercepet 
+# Defined the above "w" as the Transpose of your models coefficient AND 
+# preform matrix algebra against the models resulting support vector
 
-# In this 2D case the hyperplane is the line, w[1,1]*x1 + w[1,2]*2 + b = 0 , (?*x + ?*2  + b = 0 ???) WHY!!!!!
+b <- -svm.model$rho
+# Defined the above "b" as the negative of the models negative intercepet 
+
+# In this 2D case the hyperplane is the line (w[1,1]*x1 + w[1,2]*2 + b = 0?) 
 # a = intercept of the line 
 # b = the slope of the line 
 
 abline(a= -b/w[1,2], b= -w[1,1]/w[1,2], col = "blue", lty = 3)
 
 
-# New data - Mule, Horse, Mule 
+# Now you introduce the "New data"
+# In this case we are adding the following... "Mule", "Horse", "Mule"
+
 observations <- data.frame(Height = c(67,121,100), Weight = c(121,190,100))
 
 # Plot the new data 
@@ -56,13 +68,16 @@ abline(h = 0, v = 0, lty = 3)
 points(observations[1, ], col = "green", pch = 19)
 points(observations[2, ], col = "blue", pch = 19)
 points(observations[3, ], col = "darkorange", pch = 19)
+
 # To ID the orange for sure we need to find the hyperplane (line)
+# We use the same as previous...
 
 abline(a=-b/w[1,2], b= -w[1,1]/w[1,2], col = "blue", lty = 3)
 
-# Verify results 
+# Verify your results 
+
 predict(svm.model, observations)
 
-# it correctly predicted mule, horse, mule 
+# The model correctly predicted the "Mule", "Horse", "Mule"
 
 
