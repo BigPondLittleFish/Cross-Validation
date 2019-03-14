@@ -87,6 +87,64 @@
 # - Training sample -> select data points with replacement -> N number of bootstrap sample and check for 
 #   consistentcy 
 
+
+# Support Vector Machines
+#########################
+
+# - SVM is a binary classification method for Y/N, T/F
+#   Classifcaiton can be multi-demnsional.
+#   Sometimes only T/F, Y/N, or may have multiple Easy/Med/Hard
+#   Classification takes old data trains, and uses new data to predict. 
+# - Ex: Stock price prediction ( Will a stock rise or fall?)
+# - Ex: The color of the car may not matter, but the length of the car might. 
+# - Support vector machine is a type of classficiation algortimh which classifies data based on its features. 
+# - Will classify any new element into one of two classes, then when we give it an unknown/new data, 
+#   the algorithm should/will classify it into one of the two.
+# - When we plot the data, we can see a clear seperation between the two groups. 
+#   Although this is not always the case. 
+# - Before applying math, we notice a new data point enters into our database, 
+#   and we dont know its class. We know it will be one of the two... which one? 
+#   What do we do to find out?
+#   We need to draw a boundary to classify the new data point!
+# - We find the line of best seperation ( the line that best seperate the two groups)
+#   Potential lines can place the new data into either category,
+#   depending on where the line(s) seperate, so how do we pick?
+# - The two "support vectors" (a.k.a the data points) that are closest together and 
+#   maximize the distance between the two groups support the algorithm, and that is why 
+#   They are "support vectors." 
+
+# - The best line ("boundary") will always have the greatest margin, or rather, distance 
+#   between the support vectors ("the boundry of greatest margin")
+#   The line that has the largest margin between the two support vectors 
+#   (Again, they are technically data points, but we call support vectors because
+#   of the dimension we are  working in).
+# - The Hyperplane = The boundry of greatest margin, called hyperplane again,
+#   becasue of the dimension level we are in is where lines are actually planes. 
+# - "D+" is the shortest distnace to the closest positivie point. 
+# - "D-" is the shortest distnace to the closest negative point.
+# - Distance between them = Distance margin, and we always want to maximize that 
+#   If we dont maximize it - > misclassification.
+# - If there are two classes (this or that) then it is 2 Dimensional and 
+#   we would execute what is called a linear SVM.
+# - Remember SVM is a binary classifier, 3 or more classes --> Try random forests instead, 
+# - Applications include: face detection, text catergorization, image classification, bioinformatic
+# - SVM Kernal:
+#   What if no clear linear seperation between two classes? 
+#   (Then it is split by a plane)
+#   If not linearly seperable, because we cant seperate into two classes 
+#   with a normal linear type of line
+#   We apply a function, called a kernal function to transform into 
+#   a higher dimensional space (e.g. from a 2 dimensional to a 3 dimensional space)
+#   If we let R be the number of dimensions of the data, the kernel 
+#   converts a given R^2 dimension to R^3 dimension 
+#   Once you have transformed you can seperate the data 
+#   using our plane (becasue 3D, not a line like in 2D).
+
+# - "3+D" -> seperation occurs as a hyperplane (more complex).
+
+
+
+
 # -----------------------------------------------------------------------------------------------------------
 # EXAMPLE/HYPOTHETICAL/LOGICAL STEPS:
 
